@@ -26,3 +26,15 @@ style:
 coroutines:
   GlobalCoroutineUsage:
     active: true
+
+# ktlint's rules, wrapped as detekt's own ruleset via the detekt-formatting dependency (see
+# gradle/libs.versions.toml) — replaces Spotless, which was dropped after it triggered the same
+# root-apply-false / Kotlin-Gradle-Plugin classpath collision AGP has (see settings.gradle.kts
+# history). autoCorrect is off here so CI only ever checks, never silently rewrites a
+# contributor's diff; flip it to `true` locally and re-run `./gradlew detekt` to apply fixes,
+# then flip it back before committing.
+formatting:
+  autoCorrect: false
+  MaximumLineLength:
+    active: true
+    maxLineLength: 140

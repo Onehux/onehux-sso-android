@@ -24,8 +24,8 @@ import com.nimbusds.jose.util.DefaultResourceRetriever
 import com.nimbusds.jwt.proc.DefaultJWTProcessor
 import com.onehux.sso.model.OneHuxClaims
 import kotlinx.coroutines.Dispatchers
-import kotlinx.serialization.SerializationException
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.net.URL
 import java.text.ParseException
@@ -54,7 +54,10 @@ class OneHuxResourceServerVerifier(
     // network at all). retrying(true): one transient-failure retry on the rare fetch that
     // does happen (new kid, or cache expiry) — nimbus's own recommended resilience default.
     private val jwkSource: JWKSource<SecurityContext> = JWKSourceBuilder
-        .create<SecurityContext>(URL("$apiBaseUrl/.well-known/jwks.json"), DefaultResourceRetriever(connectTimeoutMs, readTimeoutMs))
+        .create<SecurityContext>(
+            URL("$apiBaseUrl/.well-known/jwks.json"),
+            DefaultResourceRetriever(connectTimeoutMs, readTimeoutMs)
+        )
         .cache(true)
         .retrying(true)
         .build()

@@ -36,6 +36,8 @@ dependencies {
     implementation(libs.tink.android)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
+
+    detektPlugins(libs.detekt.formatting)
 }
 
 detekt {

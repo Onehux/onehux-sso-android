@@ -21,7 +21,6 @@ kotlinxCoroutines = "1.11.0"
 nimbusJoseJwt = "10.10"      # RS256 verification + JWK/JWKS parsing
 
 detekt = "1.23.8"
-spotless = "8.9.0"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -41,6 +40,12 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 okhttp-mockwebserver = { module = "com.squareup.okhttp3:mockwebserver3", version.ref = "okhttp" }
 
+# Added as a detektPlugins(...) dependency on the existing detekt task's classpath — NOT a
+# separate Gradle plugin application — so it carries none of Spotless's root-apply-false /
+# Kotlin-Gradle-Plugin classpath collision risk (see detekt.yml's header for that history).
+# Wraps ktlint's rules as detekt's own "formatting" rule set: one tool, one config file.
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+
 [plugins]
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -48,4 +53,3 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 # NOTE: no kotlin-android plugin — AGP 9's built-in Kotlin compiles the :android module
 # natively (same lesson as onehux-pos-android's own build; see its STATUS.md).
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

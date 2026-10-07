@@ -23,10 +23,10 @@ import com.onehux.sso.model.OneHuxPublicApplication
 import com.onehux.sso.model.OneHuxTokenResponse
 import com.onehux.sso.pkce.PkcePair
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonObjectBuilder
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import okhttp3.Call
@@ -92,7 +92,12 @@ class OneHuxOAuthClient(
      * a `code_verifier` that doesn't match the original challenge — all `invalid_grant`).
      * @throws OneHuxNetworkException on a connectivity failure.
      */
-    suspend fun exchangeCode(code: String, codeVerifier: String, returnedState: String, expectedState: String): OneHuxTokenResponse {
+    suspend fun exchangeCode(
+        code: String,
+        codeVerifier: String,
+        returnedState: String,
+        expectedState: String
+    ): OneHuxTokenResponse {
         if (returnedState != expectedState) throw OneHuxStateMismatchException()
         val body = buildJsonObject {
             put("grant_type", "authorization_code")

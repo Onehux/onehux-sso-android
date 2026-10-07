@@ -27,6 +27,8 @@ dependencies {
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.okhttp.mockwebserver)
+
+    detektPlugins(libs.detekt.formatting)
 }
 
 tasks.test {

@@ -16,7 +16,9 @@ class PkceTest {
     fun `code challenge is the S256 hash of the verifier`() {
         val pair = PkcePair.generate()
         val expectedChallenge = Base64.getUrlEncoder().withoutPadding()
-            .encodeToString(MessageDigest.getInstance("SHA-256").digest(pair.codeVerifier.toByteArray(Charsets.US_ASCII)))
+            .encodeToString(
+                MessageDigest.getInstance("SHA-256").digest(pair.codeVerifier.toByteArray(Charsets.US_ASCII))
+            )
         assertEquals(expectedChallenge, pair.codeChallenge)
     }
 

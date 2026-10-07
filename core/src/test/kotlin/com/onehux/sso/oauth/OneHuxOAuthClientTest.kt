@@ -8,8 +8,8 @@ import com.onehux.sso.pkce.PkcePair
 import kotlinx.coroutines.test.runTest
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
-import okhttp3.OkHttpClient
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.OkHttpClient
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -70,7 +70,12 @@ class OneHuxOAuthClientTest {
     @Test
     fun `exchangeCode never calls the network on a state mismatch`() = runTest {
         assertFailsWith<OneHuxStateMismatchException> {
-            client.exchangeCode(code = "abc", codeVerifier = "verifier", returnedState = "wrong", expectedState = "right")
+            client.exchangeCode(
+                code = "abc",
+                codeVerifier = "verifier",
+                returnedState = "wrong",
+                expectedState = "right"
+            )
         }
         assertEquals(0, server.requestCount)
     }
@@ -82,7 +87,12 @@ class OneHuxOAuthClientTest {
             """{"access_token":"at1","id_token":"idt1","refresh_token":"rt1","token_type":"Bearer","expires_in":900,"scope":"openid profile email"}"""
         server.enqueue(MockResponse.Builder().code(200).body(tokenResponseBody).build())
 
-        val tokens = client.exchangeCode(code = "the-code", codeVerifier = "the-verifier", returnedState = "s", expectedState = "s")
+        val tokens = client.exchangeCode(
+            code = "the-code",
+            codeVerifier = "the-verifier",
+            returnedState = "s",
+            expectedState = "s"
+        )
 
         assertEquals("at1", tokens.accessToken)
         assertEquals("rt1", tokens.refreshToken)
@@ -103,7 +113,9 @@ class OneHuxOAuthClientTest {
         server.enqueue(
             MockResponse.Builder()
                 .code(200)
-                .body("""{"access_token":"at2","refresh_token":"rt2","token_type":"Bearer","expires_in":900,"scope":"openid"}""")
+                .body(
+                    """{"access_token":"at2","refresh_token":"rt2","token_type":"Bearer","expires_in":900,"scope":"openid"}"""
+                )
                 .build()
         )
 
@@ -137,7 +149,9 @@ class OneHuxOAuthClientTest {
         server.enqueue(
             MockResponse.Builder()
                 .code(200)
-                .body("""{"sub":"u1","email":"a@b.com","roles":["owner"],"permissions":["pos:app.access"],"some_future_claim":"x"}""")
+                .body(
+                    """{"sub":"u1","email":"a@b.com","roles":["owner"],"permissions":["pos:app.access"],"some_future_claim":"x"}"""
+                )
                 .build()
         )
 

@@ -27,4 +27,6 @@ class OneHuxMalformedResponseException(message: String, cause: Throwable? = null
 
 /** The `state` value on a redirect didn't match the one sent with the authorization request —
  * treat as a potential CSRF attempt, never proceed with the exchange. */
-class OneHuxStateMismatchException : OneHuxException("Redirect state did not match the value sent with the authorization request")
+class OneHuxStateMismatchException : OneHuxException(
+    "Redirect state did not match the value sent with the authorization request"
+)
