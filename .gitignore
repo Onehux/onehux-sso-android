@@ -1,0 +1,22 @@
+# onehux-sso-android/.gitignore
+
+# Build output
+*/build/
+.gradle/
+build/
+
+# Local machine config — never commit
+local.properties
+
+# IDE
+.idea/
+*.iml
+.kotlin/
+
+# JVM crash logs from local debugging sessions
+hs_err_pid*.log
+replay_pid*.log
+
+# OS
+.DS_Store
+Thumbs.db

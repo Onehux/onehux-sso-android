@@ -1,0 +1,36 @@
+# onehux-sso-android/.github/workflows/ci.yml
+# PURPOSE: builds, lints, and tests both modules on every push/PR.
+# NOTE: the Gradle heap here is NOT the reduced 768m this repo's gradle.properties ships (that
+# value is specific to the memory-constrained dev machine this SDK was built on). GitHub-hosted
+# runners have real headroom; override back up.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -Dfile.encoding=UTF-8"
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build both modules
+        run: ./gradlew build -x test -x detekt
+
+      - name: detekt (:core and :android)
+        run: ./gradlew detekt
+
+      - name: Unit tests (:core and :android)
+        run: ./gradlew test

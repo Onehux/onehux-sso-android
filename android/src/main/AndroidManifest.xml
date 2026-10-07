@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- onehux-sso-android/android/src/main/AndroidManifest.xml
+     PURPOSE: declares RedirectUriReceiverActivity, the one component this library contributes
+     to a consuming app's manifest (merged automatically by AGP's manifest merger).
+     The intent-filter's scheme is a MANIFEST PLACEHOLDER: a consuming app sets its own in its
+     build.gradle.kts, e.g.
+       defaultConfig {
+           manifestPlaceholders["onehuxRedirectScheme"] = "com.onehux.pos"
+       }
+     so the real redirect_uri (registered with OneHux Accounts) becomes
+     "com.onehux.pos://callback" and ONLY that app's manifest ends up with that scheme —
+     this library's own AAR never hardcodes a scheme belonging to any one consuming app. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name=".RedirectUriReceiverActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="${onehuxRedirectScheme}" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

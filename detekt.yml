@@ -1,0 +1,28 @@
+# onehux-sso-android/detekt.yml
+# PURPOSE: forbids the placeholder patterns AGENTS.md-style conventions across this codebase
+# ban (TODO/FIXME, GlobalScope, runBlocking outside tests) on top of detekt's own defaults
+# (buildUponDefaultConfig = true in each module's build.gradle.kts).
+style:
+  MaxLineLength:
+    active: true
+    # 120 (detekt's default) is tight for this codebase's deliberately thorough KDoc — every
+    # public member documents what it does AND why, matching the comment standard used
+    # throughout the OneHux platform's own repos. 140 fits that without encouraging genuinely
+    # long code lines.
+    maxLineLength: 140
+  ForbiddenComment:
+    active: true
+    comments:
+      - reason: 'Forbidden TODO marker — finish or file an issue instead.'
+        value: 'TODO:'
+      - reason: 'Forbidden FIXME marker — fix it or file an issue instead.'
+        value: 'FIXME:'
+  ForbiddenMethodCall:
+    active: true
+    methods:
+      - reason: 'Use a structured-concurrency scope (viewModelScope, lifecycleScope, or an injected scope) instead of GlobalScope.'
+        methodName: 'kotlinx.coroutines.GlobalScope'
+
+coroutines:
+  GlobalCoroutineUsage:
+    active: true
