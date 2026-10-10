@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.detekt)
+    `maven-publish`
 }
 
 android {
@@ -39,6 +40,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    // Declared explicitly, in valid Kotlin DSL syntax, so JitPack never needs to auto-inject
+    // its own version of this block — JitPack's Android-library auto-publish support assumes
+    // Groovy's build.gradle (single-quoted strings), and its injected
+    // `publishing { singleVariant('release') }` is a syntax error in a .kts file ('release' is
+    // parsed as an illegal multi-character Char literal, not a String). Confirmed against a
+    // real JitPack build log for this exact repo before this fix existed.
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -59,5 +72,21 @@ dependencies {
 detekt {
     buildUponDefaultConfig = true
     config.setFrom(rootProject.file("detekt.yml"))
+}
+
+// JitPack passes -Pgroup/-Pversion on its own build invocation (README: install via
+// com.github.Onehux:onehux-sso-android:<tag>) — this publication just needs to exist with a
+// real artifactId; JitPack's own tooling overrides group/version to match the requested
+// coordinate regardless of what's set here.
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.Onehux"
+                artifactId = "onehux-sso-android-android"
+            }
+        }
+    }
 }
 
