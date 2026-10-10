@@ -14,10 +14,26 @@ android {
         minSdk = 26
         // Every consuming app must set this (see README): the scheme of its own redirect_uri,
         // e.g. manifestPlaceholders["onehuxRedirectScheme"] = "com.onehux.pos" for a
-        // "com.onehux.pos://callback" redirect_uri. Defaulting it here only so this library
-        // itself (and its own instrumented tests, once added) has a valid manifest to merge —
-        // a real consuming app overrides it in its own defaultConfig/flavor.
-        manifestPlaceholders["onehuxRedirectScheme"] = "com.onehux.sso.android.unconfigured"
+        // "com.onehux.pos://callback" redirect_uri.
+        //
+        // Deliberately NOT given a default value here. AGP resolves a library's own manifest
+        // placeholders using the library's OWN defaultConfig.manifestPlaceholders at the
+        // library's own processDebugManifest step, before a consuming app's manifest merge
+        // ever runs — so a default set here gets permanently baked into every consuming app's
+        // merged manifest, and that app's own override of the same key in ITS OWN
+        // defaultConfig silently has no effect (confirmed against this repo's own :example
+        // module: AGP's manifest-merger-blame report showed the placeholder already resolved
+        // to this library's default inside [:android]'s own merged manifest, well before
+        // :example's manifest merge ran — a real, if underdocumented, AGP library-authoring
+        // gotcha). Leaving it unset here means the `${onehuxRedirectScheme}` token survives
+        // unresolved into this library's AAR, so it's resolved exactly once: at the final
+        // consuming app's own manifest merge, using that app's own value — the only place a
+        // real app-specific redirect scheme can correctly come from.
+        //
+        // If this module ever needs its own instrumented (androidTest) APK to build
+        // standalone, give the default there instead — androidTestImplementation-scoped
+        // config (or a dedicated debug-only sourceSet), never the main defaultConfig, so it
+        // never leaks into a published AAR consumers build against.
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

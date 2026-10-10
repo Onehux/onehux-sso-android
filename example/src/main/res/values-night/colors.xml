@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- onehux-sso-android/example/src/main/res/values-night/colors.xml
+     PURPOSE: dark-mode token overrides, matching frontend/src/app.css's own
+     `@media (prefers-color-scheme: dark)` block exactly. -->
+<resources>
+    <color name="ember">#E0653F</color>
+    <color name="ember_deep">#F2916F</color>
+    <color name="ivory">#17140F</color>
+    <color name="sand">#211C17</color>
+    <color name="ink">#F4EDE2</color>
+    <color name="stone">#A89E92</color>
+    <color name="hairline">#3A332B</color>
+</resources>

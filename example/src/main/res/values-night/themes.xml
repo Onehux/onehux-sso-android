@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- onehux-sso-android/example/src/main/res/values-night/themes.xml
+     PURPOSE: dark-mode status/nav bar contrast — colors themselves are already swapped via
+     values-night/colors.xml; only the "light bar icons" flags need to flip here. -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.OneHuxSsoExample" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/ember</item>
+        <item name="colorOnPrimary">@color/ivory</item>
+        <item name="colorSecondary">@color/ink</item>
+        <item name="colorOnSecondary">@color/ivory</item>
+        <item name="android:colorBackground">@color/ivory</item>
+        <item name="colorSurface">@color/ivory</item>
+        <item name="colorOnSurface">@color/ink</item>
+        <item name="android:statusBarColor">@color/ivory</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+        <item name="android:navigationBarColor">@color/ivory</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+        <item name="fontFamily">@font/instrument_sans</item>
+        <item name="android:fontFamily">@font/instrument_sans</item>
+    </style>
+</resources>

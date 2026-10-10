@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- onehux-sso-android/example/src/main/res/values/colors.xml
+     PURPOSE: the real OneHux Accounts brand tokens (frontend/src/app.css's @theme block),
+     not placeholder colors — this example app is meant to look like a genuine OneHux
+     integration, not a generic Android sample. See values-night/colors.xml for the dark-mode
+     token swap, matching the web app's own prefers-color-scheme block. -->
+<resources>
+    <color name="ember">#B93A1B</color>
+    <color name="ember_deep">#8F2B12</color>
+    <color name="ivory">#FAF6F0</color>
+    <color name="sand">#F1E9DE</color>
+    <color name="ink">#1C1917</color>
+    <color name="stone">#77706B</color>
+    <color name="hairline">#E2DACD</color>
+</resources>
