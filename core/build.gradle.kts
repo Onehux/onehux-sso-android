@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.detekt)
+    `maven-publish`
 }
 
 java {
@@ -33,6 +34,23 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+// :android depends on this module via `api(project(":core"))`. Without an explicit
+// publication here, JitPack never builds/publishes :core as its own artifact at all — it only
+// auto-publishes the module(s) a consumer's requested coordinate names directly — so :android's
+// generated POM ends up with an unresolvable dependency (`com.github.Onehux:core:<tag>` returns
+// 401 from JitPack, confirmed against a real build of onehux-pos-android pulling this SDK in).
+// Deliberately NOT setting group/artifactId here: JitPack passes `-Pgroup`/`-Pversion` to every
+// subproject in the build (not just the one a consumer names directly), so the default
+// `project.group`/`project.name` ("core") already match the exact coordinate :android's own
+// generated POM dependency expects — overriding either here would just reintroduce the mismatch.
+publishing {
+    publications {
+        create<MavenPublication>("release") {
+            from(components["java"])
+        }
+    }
 }
 
 detekt {
